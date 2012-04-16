@@ -1,3 +1,12 @@
+/**
+ * TODO: минимальное значение зоны выбора в процентах
+ * TODO: документирование кода
+ * TODO: опции из data атрибута
+ * TODO: переписать слайдер без использования jquery-ui
+ * TODO: позиционирование блока относительно якоря верх/низ/право/лево
+ * TODO: крест,маркирующий центр
+ */
+
 !(function($){
 
   /**
@@ -15,13 +24,16 @@
 
     this.toggle();
     this.setPosition();
-    this.repositeSelected(this.options.width);
+    this.repositeSelected(100 * this.options.defaultAspect);
+
+    this.slider.slider('option', 'min', 100 * this.options.aspect);
 
   };
 
   CropBox.prototype = {
 
     setPosition: function() {
+
       var position = this.element.position();
       this.holder.css({
         left: position.left,
@@ -34,7 +46,7 @@
       });
 
       this.image.css({
-        'width': this.options.width,
+        width: this.options.width,
         left: 0,
         top: 0
       });
@@ -61,6 +73,8 @@
         this.area = holder.find('.b-crop-box__area');
         this.image = holder.find('.b-crop-box__image');
         this.selected = holder.find('.b-crop-box__selected');
+        this.masks = holder.find('.b-crop-box__mask');
+        this.slider = holder.find('.b-crop-box__slider');
 
       } else {
         holder = $('<div/>', {
@@ -68,9 +82,13 @@
           id: 'crop-box'
         }).hide().appendTo('body');
 
-        holder.append('<div class="b-crop-box__area"><img class="b-crop-box__image"/><div class="b-crop-box__selected"/></div>' +
-          '<div class="b-crop-box__panel"><div class="b-crop-box__slider"/>"</div>');
+        holder.append('<div class="b-crop-box__area"><img class="b-crop-box__image"/>' +
+          '<div class="b-crop-box__mask left"/><div class="b-crop-box__mask right"/><div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
+          '<div class="b-crop-box__selected"/></div>' +
+          '<div class="b-crop-box__panel"><div class="b-crop-box__slider"/></div>');
 
+
+        this.masks = holder.find('.b-crop-box__mask');
         this.area = holder.find('.b-crop-box__area');
         this.image = holder.find('.b-crop-box__image');
         this.selected = holder.find('.b-crop-box__selected');
@@ -81,8 +99,7 @@
 
         this.slider.slider({
           slide: $.proxy(this.onSlide, this),
-          value: this.options.width,
-          max: this.options.width
+          max: 100
         });
 
 
@@ -104,9 +121,12 @@
 
         $(document).on('mousemove.cropbox', $.proxy(function(e){
 
+          var left = e.clientX - this.start.left - this.holder.position().left,
+              top = e.clientY - this.start.top - this.holder.position().top;
+
           this.image.css({
-            left: e.clientX - this.start.left - this.holder.position().left,
-            top: e.clientY - this.start.top - this.holder.position().top
+            left: left,
+            top: top
           });
 
         }, this));
@@ -121,15 +141,69 @@
       }, this));
     },
 
+    /**
+     * Рисует выбранную зону. Выбранная зона представляет собой маску состоящую
+     * из 4-х слоев.
+     *
+     * @param value значение бегунка, [this.options.aspect...100], 100 — вся зона выбрана
+     */
     repositeSelected: function(value) {
+
+      /**
+       * Убираем бордюр на максимальном значении
+       */
+      if ( 100 == value ) {
+        this.selected.addClass('b-crop-box__selected_max');
+      } else this.selected.removeClass('b-crop-box__selected_max');
+
+      var width = Math.floor(this.options.width * value/100);
+      var height = Math.floor(this.options.height * value/100);
+
       this.selected.css({
-        width: value,
-        height: value,
-        left: this.holder.width()/2 - value/2,
-        top: this.holder.height()/2 - value/2
+        width: width,
+        height: height,
+        left: Math.floor(this.area.width()/2 - width/2),
+        top: Math.floor(this.area.height()/2 - height/2)
       });
+
+      /**
+       * Рисуем маску, состоящую из четырех слоев
+       */
+      this.masks.eq(0).css({ // Верх
+        left: this.selected.position().left,
+        top: 0,
+        width: width,
+        height: this.selected.position().top
+      });
+
+      this.masks.eq(1).css({ // Низ
+        left: this.selected.position().left,
+        bottom: 0,
+        width: width,
+        height: this.selected.position().top
+      });
+
+      this.masks.eq(2).css({ // Левый блок
+        left: 0,
+        top: 0,
+        width: this.selected.position().left,
+        height: '100%'
+      });
+
+      this.masks.eq(3).css({ // Правый блок
+        right: 0,
+        top: 0,
+        width: this.area.width() - width - this.selected.position().left,
+        height: '100%'
+      });
+
     },
 
+    /**
+     * Каждый тик слайдера перерисовываем выбранную зону.
+     * @param e событие
+     * @param ui
+     */
     onSlide: function(e, ui) {
       var value = ui.value;
       this.repositeSelected(value);
@@ -147,8 +221,10 @@
    * Установки по дефаулту
    */
   $.fn.cropBox.defaults = {
-    width: 260,
-    height: 310
+    width:          260,  // необходимый финальный рзамер по горизонтали
+    height:         310,  // финальный размер по вертикали
+    aspect:         .5,   // минимальный коэффициент сжатия, т.е. слайдером можно будет отрегулировать размер на 50%
+    defaultAspect:  .7    // значение сжатия по умолчанию
   };
 
   $(function(){
@@ -158,9 +234,6 @@
     });
 
   })
-
-
-
 
 })(window.jQuery);
 
