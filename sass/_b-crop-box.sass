@@ -1,0 +1,34 @@
+.b-crop-box
+  border: 2px solid #464646
+  left: 0
+  top: 0
+  position: absolute
+  background-color: white
+  overflow: hidden
+  +border-radius(10px)
+  +single-box-shadow(rgba(black, .5), 3px, 3px, 7px)
+
+  .b-crop-box__area
+    position: relative
+    overflow: hidden
+
+  .b-crop-box__image
+    +border-top-radius(10px)
+    cursor: move // TODO: переделать на руку как в Фотошопе
+    width: 100%
+    position: absolute
+    left: 0
+    top: 0
+
+  .b-crop-box__panel
+    background-color: #eaeaea
+    height: 25px
+    border-top: 1px solid #4f4f4f
+    +border-bottom-radius(10px)
+
+  .b-crop-box__selected
+    position: absolute
+    left: 0
+    top: 0
+    background-color: red
+    opacity: .5
