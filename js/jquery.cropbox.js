@@ -97,7 +97,10 @@
 
       this.area.on('mousedown', $.proxy(function(e){
 
-        this.start = { left: e.clientX - this.holder.position().left, top: e.clientY - this.holder.position().top };
+        this.start = {
+          left: e.clientX - this.holder.position().left - this.image.position().left,
+          top: e.clientY - this.holder.position().top - this.image.position().top
+        };
 
         $(document).on('mousemove.cropbox', $.proxy(function(e){
 
