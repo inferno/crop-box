@@ -9816,6 +9816,11 @@ a._keyEvent=!1;return K},_generateMonthYearHeader:function(a,b,c,d,e,f,g,h){var 
       var holder;
       if ( $('#crop-box').length ) {
         holder = $('#crop-box');
+
+        this.area = holder.find('.b-crop-box__area');
+        this.image = holder.find('.b-crop-box__image');
+        this.selected = holder.find('.b-crop-box__selected');
+
       } else {
         holder = $('<div/>', {
           'class': 'b-crop-box',
