@@ -783,7 +783,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 .b-crop-box .b-crop-box__area { position: relative; overflow: hidden; }
 .b-crop-box .b-crop-box__image { -moz-border-radius-topleft: 10px; -webkit-border-top-left-radius: 10px; -ms-border-top-left-radius: 10px; -o-border-top-left-radius: 10px; border-top-left-radius: 10px; -moz-border-radius-topright: 10px; -webkit-border-top-right-radius: 10px; -ms-border-top-right-radius: 10px; -o-border-top-right-radius: 10px; border-top-right-radius: 10px; cursor: move; width: 100%; position: absolute; left: 0; top: 0; }
 .b-crop-box .b-crop-box__panel { background-color: #eaeaea; height: 25px; border-top: 1px solid #4f4f4f; -moz-border-radius-bottomleft: 10px; -webkit-border-bottom-left-radius: 10px; -ms-border-bottom-left-radius: 10px; -o-border-bottom-left-radius: 10px; border-bottom-left-radius: 10px; -moz-border-radius-bottomright: 10px; -webkit-border-bottom-right-radius: 10px; -ms-border-bottom-right-radius: 10px; -o-border-bottom-right-radius: 10px; border-bottom-right-radius: 10px; }
-.b-crop-box .b-crop-box__selected { position: absolute; left: 0; top: 0; background-color: red; opacity: 0.5; }
+.b-crop-box .b-crop-box__selected { position: absolute; left: 0; top: 0; background-color: red; opacity: 0.5; cursor: move; }
 
 body { margin: 30px; }
 
