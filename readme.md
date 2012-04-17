@@ -4,6 +4,13 @@
 
 ## Как это работает?
 
+  В секцию `head` необходимо подключить `jQuery` и `jQuery UI` (только слайдер) например вот так:
+
+```html
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' type='text/javascript'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js' type='text/javascript'></script>
+```
+
 TODO: написать раздел
 
 ## Тестируем возможности
@@ -12,16 +19,21 @@ TODO: написать раздел
 
 Выкачиваем репозиторий
 
+```bash
     git clone git@github.com:inferno/CropBox.git
-
+```
 Устанавливаем необходимые гемы
 
+```bash
     cd CropBox
     bundle install
+```
 
 Запускаем приложение
 
+```bash
     ruby app.rb
+```
 
 В браузере заходим по адресу `http://localhost:4567`, смотрим на работу скрипта.
 

@@ -20,6 +20,18 @@
     this.element = $(element);
     this.options = $.extend({}, $.fn.cropBox.defaults, options);
 
+    if ( this.element.data('size') ) {
+      var size = this.element.data('size').split('x');
+      this.options.width = parseInt(size[0]);
+      this.options.height = parseInt(size[1]);
+    }
+
+    if ( this.element.data('aspect') ) {
+      this.options.aspect = this.element.data('aspect');
+    }
+
+    this.options.defaultAspect = this.options.aspect;
+
     this.holder = this.build();
 
     this.toggle();
@@ -277,7 +289,6 @@
     width:          260,  // необходимый финальный рзамер по горизонтали
     height:         310,  // финальный размер по вертикали
     aspect:         .5,   // минимальный коэффициент сжатия, т.е. слайдером можно будет отрегулировать размер на 50%
-    defaultAspect:  .9,    // значение сжатия по умолчанию
     url: '/crop'
   };
 
