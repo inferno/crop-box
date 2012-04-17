@@ -17,7 +17,7 @@
 
     ruby app.rb
 
-В браузере заходим по адресу `http://localhost:4567, кропаем ;)
+В браузере заходим по адресу `http://localhost:4567`, кропаем ;)
 
 ## Скриншот
 ![Скриншот](https://github.com/inferno/cropbox/raw/master/images/view.jpg "Скриншот")
