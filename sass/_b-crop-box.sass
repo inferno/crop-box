@@ -23,6 +23,7 @@
     top: 0
 
   .b-crop-box__panel
+    position: relative
     background-color: #eaeaea
     height: 25px
     border-top: 1px solid #4f4f4f
@@ -42,3 +43,45 @@
     position: absolute
     background-color: black
     opacity: .2
+
+  .b-crop-box__send
+    position: absolute
+    right: 13px
+    top: 4px
+    background: inline-image('../img/send.png') no-repeat left top
+    width: image-width('send.png')
+    height: image-height('send.png')
+    display: block
+    cursor: pointer
+    opacity: .8
+    &:hover
+      opacity: 1
+
+
+  .ui-slider
+    margin: 8px 40px 0 15px
+    background: inline-image('../img/track.png') no-repeat -4px top
+    height: image-height('track.png')
+    position: relative
+    i
+      display: block
+      position: absolute
+      right: 0
+      top: 0
+      width: 4px
+      background: inline-image('../img/track.png') no-repeat right top
+      height: image-height('track.png')
+    .ui-slider-handle
+      display: block
+      background: inline-image('../img/knob.png') no-repeat right top
+      width: image-width('knob.png')
+      height: image-height('knob.png')
+      position: absolute
+      top: -4px
+      margin-left: -10px
+      opacity: .8
+      &:hover
+        opacity: 1
+      &:focus
+        outline: none
+

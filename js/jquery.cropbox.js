@@ -24,8 +24,9 @@
 
     this.toggle();
     this.setPosition();
-    this.repositeSelected(100 * this.options.defaultAspect);
 
+    this.repositeSelected(100 * this.options.defaultAspect);
+    this.slider.slider('value', 100 * this.options.defaultAspect - 7);
     this.slider.slider('option', 'min', 100 * this.options.aspect);
 
   };
@@ -75,6 +76,7 @@
         this.selected = holder.find('.b-crop-box__selected');
         this.masks = holder.find('.b-crop-box__mask');
         this.slider = holder.find('.b-crop-box__slider');
+        this.send = holder.find('.b-crop-box__send');
 
       } else {
         holder = $('<div/>', {
@@ -85,13 +87,16 @@
         holder.append('<div class="b-crop-box__area"><img class="b-crop-box__image"/>' +
           '<div class="b-crop-box__mask left"/><div class="b-crop-box__mask right"/><div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
           '<div class="b-crop-box__selected"/></div>' +
-          '<div class="b-crop-box__panel"><div class="b-crop-box__slider"/></div>');
+          '<div class="b-crop-box__panel"><div class="b-crop-box__slider"><i/></div><span class="b-crop-box__send"/></div>');
 
 
         this.masks = holder.find('.b-crop-box__mask');
         this.area = holder.find('.b-crop-box__area');
         this.image = holder.find('.b-crop-box__image');
         this.selected = holder.find('.b-crop-box__selected');
+        this.send = holder.find('.b-crop-box__send');
+
+        this.send.on('click', $.proxy(this.onSend, this));
 
         this.slider = holder.find('.b-crop-box__slider');
 
@@ -105,6 +110,13 @@
 
       }
       return(holder);
+    },
+
+    /**
+     * Запускаем кроппер
+     */
+    onSend: function() {
+      console.info('onSend');
     },
 
     /**
@@ -224,7 +236,7 @@
     width:          260,  // необходимый финальный рзамер по горизонтали
     height:         310,  // финальный размер по вертикали
     aspect:         .5,   // минимальный коэффициент сжатия, т.е. слайдером можно будет отрегулировать размер на 50%
-    defaultAspect:  .7    // значение сжатия по умолчанию
+    defaultAspect:  .9    // значение сжатия по умолчанию
   };
 
   $(function(){
