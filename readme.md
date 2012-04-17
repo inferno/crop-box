@@ -4,35 +4,48 @@
 
 ## Как это работает?
 
-  В секцию `head` необходимо подключить `jQuery` и `jQuery UI` (только слайдер) например вот так:
+В секцию `head` необходимо подключить `jQuery` и `jQuery UI` (только слайдер) например вот так:
 
 ```html
-    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' type='text/javascript'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js' type='text/javascript'></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
 ```
 
-TODO: написать раздел
+Также необходимо подключить `jquery.cropbox.js`:
+
+```html
+<script src="/js/jquery.cropbox.js" type="text/javascript"></script>
+```
+
+В тех местах, где необходимо вызывать скрипт добавляем специальные атрибуты:
+
+```html
+<div class="b-preview" data-crop="img/navalny.png" data-size="260x310" data-aspect=".5"></div>
+```
+
+Где `data-crop` — урл картинки, которуб будем кропать, `data-size` — размеры итоговой картинки и `data-aspect` — минимальное сжатие для картинки.
+
+Дальше скрипт всё сделает за вас.
 
 ## Тестируем возможности
 
 Вы можете быстро увидеть работу скрипта в действии, для этого, у вас должен быть установлен интерпритатор Ruby.
 
-Выкачиваем репозиторий
+Выкачиваем репозиторий:
 
 ```bash
-    git clone git@github.com:inferno/CropBox.git
+git clone git@github.com:inferno/CropBox.git
 ```
-Устанавливаем необходимые гемы
+Устанавливаем необходимые гемы:
 
 ```bash
-    cd CropBox
-    bundle install
+cd CropBox
+bundle install
 ```
-
-Запускаем приложение
+Запускаем приложение:
 
 ```bash
-    ruby app.rb
+ruby app.rb
 ```
 
 В браузере заходим по адресу `http://localhost:4567`, смотрим на работу скрипта.
