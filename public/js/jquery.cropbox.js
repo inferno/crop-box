@@ -27,6 +27,15 @@
       this.options.height = parseInt(size[1]);
     }
 
+    if ( this.element.data('size-preview') ) {
+      var sizePreview = this.element.data('size-preview').split('x');
+      this.options.previewWidth = sizePreview[0];
+      this.options.previewHeight = sizePreview[1];
+    } else {
+      this.options.previewWidth = this.options.width;
+      this.options.previewHeight = this.options.height;
+    }
+
     if ( this.element.data('aspect') ) {
       this.options.aspect = this.element.data('aspect');
     }
@@ -42,6 +51,9 @@
     this.slider.slider('option', 'min', 100 * this.options.aspect);
     this.slider.slider('value', 100 * this.options.defaultAspect);
 
+    this.slider.bind('slide', $.proxy(this.onSlide, this));
+    this.send.on('click', $.proxy(this.onSend, this));
+
   };
 
   CropBox.prototype = {
@@ -55,12 +67,12 @@
       });
 
       this.area.css({
-        width: this.options.width,
-        height: this.options.height
+        width: this.options.previewWidth,
+        height: this.options.previewHeight
       });
 
       this.image.css({
-        width: this.options.width,
+        width: this.options.previewWidth,
         left: 0,
         top: 0
       });
@@ -109,14 +121,11 @@
         this.selected = holder.find('.b-crop-box__selected');
         this.send = holder.find('.b-crop-box__send');
 
-        this.send.on('click', $.proxy(this.onSend, this));
-
         this.slider = holder.find('.b-crop-box__slider');
 
         this.addDragBehaviour();
 
         this.slider.slider({
-          slide: $.proxy(this.onSlide, this),
           max: 100
         });
 
@@ -129,20 +138,19 @@
      * Кропанье картинки
      */
     onSend: function() {
-      if ( this.c ) $(this.c).remove();
-      this.c = $('<canvas/>', {
+      var c = $('<canvas/>', {
         css: {
           position: 'absolute',
           right: 20,
           top: 20,
-          display: 'none'
+//          display: 'none'
         }
       }).appendTo('body')[0];
 
-      this.c.width = this.options.width;
-      this.c.height = this.options.height;
+      c.width = this.options.previewWidth;
+      c.height = this.options.previewHeight;
 
-      var ctx = this.c.getContext('2d');
+      var ctx = c.getContext('2d');
 
       var p = this.image.position();
       var s = this.selected.position();
@@ -151,13 +159,24 @@
       var height = this.selected.height();
 
       ctx.drawImage(this.image[0], p.left, p.top, this.image.width(), this.image.height());
+      ctx.drawImage(c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
-      ctx.drawImage(this.c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
-      var data = ctx.getImageData(0, 0, this.options.width, this.options.height);
+      var out = $('<canvas/>', {
+        css: {
+          display: 'none'
+        }
+      }).appendTo('body')[0];
+
+      out.width = this.options.width;
+      out.height = this.options.height;
+
+      var cto = out.getContext('2d');
+
+      cto.drawImage(c, 0, 0, this.options.width, this.options.height, 0, 0, this.options.width, this.options.height);
 
       $.post(this.options.url, {
-        cropped_file: this.c.toDataURL('image/png')
+        cropped_file: out.toDataURL('image/png')
       }, function(content){
         if ( $('#cropped-img').length ) $('#cropped-img').remove();
         $('<img/>', {
@@ -170,6 +189,9 @@
           }
         }).appendTo('body');
       });
+
+      $(out).remove();
+      $(c).remove();
 
     },
 
@@ -217,13 +239,6 @@
      * @param value значение бегунка, [this.options.aspect...100], 100 — вся зона выбрана
      */
     repositeSelected: function(value) {
-
-      /**
-       * Убираем бордюр на максимальном значении
-       */
-      if ( 100 == value ) {
-        this.selected.addClass('b-crop-box__selected_max');
-      } else this.selected.removeClass('b-crop-box__selected_max');
 
       var width = Math.floor(this.options.width * value/100);
       var height = Math.floor(this.options.height * value/100);
