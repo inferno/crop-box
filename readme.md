@@ -11,24 +11,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
 ```
 
-Также необходимо подключить `jquery.cropbox.js` и `style.css`:
+Также необходимо подключить `jquery.cropbox.js` и `crop-box.css`:
 
 ```html
 <script src="js/jquery.cropbox.js" type="text/javascript"></script>
 <link href="css/crop-box.css" rel="stylesheet" type="text/css">
 ```
 
-В тех местах, где необходимо вызывать скрипт добавляем специальные атрибуты:
+В качестве якоря используется любой html-элемент, снабженный дополнительными data-атрибутами. Пример:
 
 ```html
 <div class="b-preview" data-crop="img/navalny.png" data-size="100x100" data-size-preview="260x310" data-aspect=".5"></div>
 ```
 
-Где `data-crop` — url картинки, которую будем кадрировать, `data-size` — размеры картинки, котоарая должна получится, `data-size-preview` — размеры превьюшечки и `data-aspect` — минимальное сжатие для картинки. Обязательным параметром является только `data-crop`.
+Где `data-crop` — url картинки, которую будем кадрировать, `data-size` — размеры картинки, которая должна получится, `data-size-preview` — размеры превьюшечки и `data-aspect` — минимальное сжатие для картинки. Обязательным параметром является только `data-crop`.
 
 В итоге, если разобрать наш пример, мы будем кадрировать `img/navalny.png`, у нас получится картинка с размерами `100x100` и минимальная часть, которую мы сможем выбрать на картинке будет равна `50%` от `260x310`.
-
-Дальше скрипт всё сделает за вас.
 
 ## Тестируем возможности
 
@@ -55,7 +53,7 @@ ruby app.rb
 
 ## Скриншот
 
-Внешний вид легко меняется. На скриншоте представлен внешний вид по дефаулту.
+На скриншоте представлен внешний вид по умолчанию.
 
 ![Скриншот](https://github.com/inferno/cropbox/raw/master/images/view.jpg "Скриншот")
 
