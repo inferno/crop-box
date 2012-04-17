@@ -44,7 +44,7 @@ file = Base64.decode64(params[:cropped_file].split(',')[1])
 
 ### События
 
-Доступны следующие события `complete`, `show` и `hide`.
+Доступны следующие события: `complete`, `show` и `hide`.
 
 Привязать событие можно следующим образом:
 
@@ -92,3 +92,6 @@ ruby app.rb
 * Opera
 * Safari и Chrome
 * Internet Explorer 9+
+
+## Авторство
+Copyright &copy; Konstantin Savelyev
