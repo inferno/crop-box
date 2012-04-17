@@ -121,7 +121,8 @@
         css: {
           position: 'absolute',
           right: 20,
-          top: 20
+          top: 20,
+          display: 'none'
         }
       }).appendTo('body')[0];
       this.c.width = this.options.width;
@@ -141,6 +142,17 @@
 
       $.post(this.options.url, {
         cropped_file: this.c.toDataURL('image/png')
+      }, function(content){
+        if ( $('#cropped-img').length ) $('#cropped-img').remove();
+        $('<img/>', {
+          id: 'cropped-img',
+          src: content,
+          css: {
+            position: 'absolute',
+            right: 20,
+            bottom: 20
+          }
+        }).appendTo('body');
       });
 
     },
