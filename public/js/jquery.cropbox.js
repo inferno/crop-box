@@ -6,6 +6,7 @@
  * TODO: переписать слайдер без использования jquery-ui
  * TODO: позиционирование блока относительно якоря верх/низ/право/лево
  * TODO: крест,маркирующий центр
+ * TODO: найти текстуру под фотографию
  */
 
 !(function($){
@@ -61,8 +62,15 @@
     setPosition: function() {
 
       var position = this.element.position();
+
+      var left = position.left + this.element.width() + 5;
+
+      if ( left + parseInt(this.options.previewWidth) > $(document).width() ) {
+        left = position.left - 10 - this.options.previewWidth;
+      }
+
       this.holder.css({
-        left: position.left + this.element.width() + 5,
+        left: left,
         top: position.top
       });
 
