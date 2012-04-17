@@ -13,3 +13,16 @@ task :build do
     file.write Closure::Compiler.new.compress(source)
   end
 end
+
+desc "build the docco documentation"
+task :doc do
+  check 'docco', 'docco', 'https://github.com/jashkenas/docco'
+  system 'docco public/js/jquery.cropbox.js'
+end
+
+# Check for the existence of an executable.
+def check(exec, name, url)
+  return unless `which #{exec}`.empty?
+  puts "#{name} not found.\nInstall it from #{url}"
+  exit
+end
