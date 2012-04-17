@@ -11,10 +11,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
 ```
 
-Также необходимо подключить `jquery.cropbox.js`:
+Также необходимо подключить `jquery.cropbox.js` и `style.css`:
 
 ```html
-<script src="/js/jquery.cropbox.js" type="text/javascript"></script>
+<script src="js/jquery.cropbox.js" type="text/javascript"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css">
 ```
 
 В тех местах, где необходимо вызывать скрипт добавляем специальные атрибуты:
