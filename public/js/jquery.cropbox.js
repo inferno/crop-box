@@ -16,19 +16,21 @@
    * Конструктор
    *
    * @param element элемент, для которого конструируем
-   * @param options набор опций, смешивается со значениями по дефаулту
+   * @param options набор опций, смешивается со значениями по дефолту
    */
   var CropBox = function(element, options){
 
     this.element = $(element);
-    this.options = $.extend({}, $.fn.cropBox.defaults, options);
+    this.options = $.extend({}, $.fn.cropBox.defaults, options); // мерджим опции
 
+    // финальные размеры, если их нет, используем дефолтные значения
     if ( this.element.data('size') ) {
       var size = this.element.data('size').split('x');
       this.options.width = parseInt(size[0]);
       this.options.height = parseInt(size[1]);
     }
 
+    // размеры превьюшечки, если их нет, используем финальные размер
     if ( this.element.data('size-preview') ) {
       var sizePreview = this.element.data('size-preview').split('x');
       this.options.previewWidth = sizePreview[0];
@@ -38,13 +40,9 @@
       this.options.previewHeight = this.options.height;
     }
 
-    if ( this.element.data('aspect') ) {
-      this.options.aspect = this.element.data('aspect');
-    }
+    if ( this.element.data('aspect') ) this.options.aspect = this.element.data('aspect');
 
-    if ( this.element.data('url') ) {
-      this.options.url = this.element.data('url');
-    }
+    if ( this.element.data('url') ) this.options.url = this.element.data('url');
 
     this.options.defaultAspect = this.options.aspect + .2;
 
@@ -57,19 +55,30 @@
     this.slider.slider('option', 'min', 100 * this.options.aspect);
     this.slider.slider('value', 100 * this.options.defaultAspect);
 
-    this.slider.bind('slide', $.proxy(this.onSlide, this));
+    /**
+     * Чистим события и навешиваем новые события для конкретного контрола
+     */
+    this.slider.off('slide');
+    this.send.off('click');
+
+    this.slider.on('slide', $.proxy(this.onSlide, this));
     this.send.on('click', $.proxy(this.onSend, this));
 
   };
 
   CropBox.prototype = {
 
+    /**
+     * Позиционируем блок относительно якоря
+     */
     setPosition: function() {
 
       var position = this.element.position();
 
+      /**
+       * Определяем, в какую сторону выбрасывать блок — в левую или в правую
+       */
       var left = position.left + this.element.width() + 5;
-
       if ( left + parseInt(this.options.previewWidth) > $(document).width() ) {
         left = position.left - 10 - this.options.previewWidth;
       }
@@ -89,14 +98,32 @@
         left: 0,
         top: 0
       });
+
       this.image.attr('src', this.element.data('crop'));
-
-      this.selected.width(this.options.width);
-
     },
 
+    /**
+     * Показывает или скрывает контрол
+     */
     toggle: function() {
+
+      var method;
+
       this.holder.toggle();
+
+      /**
+       * По клику на тело документа закрываем блок
+       */
+      if ( this.holder.is(':visible') ) {
+        $(document).on('click.cropbox', $.proxy(function(){
+          $(document).off('click.cropbox');
+          this.toggle();
+        }, this));
+
+        method = 'show';
+      } else method = 'hide';
+      this.element.trigger(method);
+
     },
 
     /**
@@ -107,6 +134,7 @@
       var holder;
 
       if ( $('#crop-box').length ) {
+
         holder = $('#crop-box');
 
         this.area = holder.find('.b-crop-box__area');
@@ -117,31 +145,33 @@
         this.send = holder.find('.b-crop-box__send');
 
       } else {
+
         holder = $('<div/>', {
           'class': 'b-crop-box',
           id: 'crop-box'
         }).hide().appendTo('body');
 
         holder.append('<div class="b-crop-box__area"><img class="b-crop-box__image"/>' +
-          '<div class="b-crop-box__mask left"/><div class="b-crop-box__mask right"/><div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
+          '<div class="b-crop-box__mask left"/><div class="b-crop-box__mask right"/>' +
+          '<div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
           '<div class="b-crop-box__selected"/></div>' +
-          '<div class="b-crop-box__panel"><div class="b-crop-box__slider b-crop-box__track"><i class="b-crop-box__track"/></div><span class="b-crop-box__send"/></div>');
+          '<div class="b-crop-box__panel"><div class="b-crop-box__slider b-crop-box__track">' +
+          '<i class="b-crop-box__track"/></div><span class="b-crop-box__send"/></div>');
 
+        holder.on('click', function(e){
+          e.stopPropagation();
+        });
 
         this.masks = holder.find('.b-crop-box__mask');
         this.area = holder.find('.b-crop-box__area');
         this.image = holder.find('.b-crop-box__image');
         this.selected = holder.find('.b-crop-box__selected');
         this.send = holder.find('.b-crop-box__send');
-
         this.slider = holder.find('.b-crop-box__slider');
 
         this.addDragBehaviour();
 
-        this.slider.slider({
-          max: 100
-        });
-
+        this.slider.slider({ max: 100 });
 
       }
       return(holder);
@@ -151,14 +181,7 @@
      * Кропанье картинки
      */
     onSend: function() {
-      var c = $('<canvas/>', {
-        css: {
-          position: 'absolute',
-          right: 20,
-          top: 20,
-//          display: 'none'
-        }
-      }).appendTo('body')[0];
+      var c = $('<canvas/>').hide().appendTo('body')[0];
 
       c.width = this.options.previewWidth;
       c.height = this.options.previewHeight;
@@ -175,11 +198,7 @@
       ctx.drawImage(c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
 
-      var out = $('<canvas/>', {
-        css: {
-          display: 'none'
-        }
-      }).appendTo('body')[0];
+      var out = $('<canvas/>').hide().appendTo('body')[0];
 
       out.width = this.options.width;
       out.height = this.options.height;
@@ -190,18 +209,9 @@
 
       $.post(this.options.url, {
         cropped_file: out.toDataURL('image/png')
-      }, function(content){
-        if ( $('#cropped-img').length ) $('#cropped-img').remove();
-        $('<img/>', {
-          id: 'cropped-img',
-          src: content,
-          css: {
-            position: 'absolute',
-            right: 20,
-            bottom: 20
-          }
-        }).appendTo('body');
-      });
+      }, $.proxy(function(content){
+        this.element.trigger('complete', content);
+      }, this));
 
       $(out).remove();
       $(c).remove();
@@ -246,10 +256,11 @@
     },
 
     /**
-     * Рисует выбранную зону. Выбранная зона представляет собой маску состоящую
+     * Рисует зону выбора. Зона выбора представляет собой маску состоящую
      * из 4-х слоев.
      *
-     * @param value значение бегунка, [this.options.aspect...100], 100 — вся зона выбрана
+     * @param value значение слайдера, [this.options.aspect*100...100],
+     * 100 — зона выбора растянута на весь блок
      */
     repositeSelected: function(value) {
 
@@ -310,24 +321,25 @@
 
   $.fn.cropBox = function(options) {
     return this.each(function(){
-      $(this).data('crop-box', (new CropBox(this, options)))
+      $(this).data('crop-box', (new CropBox(this, options)));
     });
   };
 
   /**
-   * Установки по дефаулту
+   * Установки по дефолту
    */
   $.fn.cropBox.defaults = {
-    width:          260,  // необходимый финальный рзамер по горизонтали
-    height:         310,  // финальный размер по вертикали
-    aspect:         .5,   // минимальный коэффициент сжатия, т.е. слайдером можно будет отрегулировать размер на 50%
-    url: '/crop'
+    width:          260,    // размер по горизонтали
+    height:         350,    // размер по вертикали
+    aspect:         .5,     // ???
+    url:            '/crop' // url, который будет сохранять кадрированный файл
   };
 
   $(function(){
 
-    $('body').on('click', '[data-crop]', function(){
+    $('body').on('click', '[data-crop]', function(e){
       $(this).cropBox({});
+      e.stopPropagation();
     });
 
   })

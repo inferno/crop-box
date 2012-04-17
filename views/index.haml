@@ -12,7 +12,23 @@
   :javascript
 
     $(function(){
-      $('.b-preview:first').cropBox();
+
+      $('.b-preview').on('complete', function(e, url){
+
+        if ( $('#cropped-img').length ) $('#cropped-img').remove();
+        $('<img/>', {
+          id: 'cropped-img',
+          src: url,
+          css: {
+            position: 'absolute',
+            right: 20,
+            bottom: 20
+          }
+        }).appendTo('body');
+
+
+      });
+
     });
 
   %h1 Примеры работы со скриптом
