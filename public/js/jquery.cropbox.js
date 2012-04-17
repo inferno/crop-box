@@ -113,10 +113,36 @@
     },
 
     /**
-     * Запускаем кроппер
+     * Кропанье картинки
      */
     onSend: function() {
-      console.info('onSend');
+      if ( this.c ) $(this.c).remove();
+      this.c = $('<canvas/>', {
+        css: {
+          position: 'absolute',
+          right: 20,
+          top: 20
+        }
+      }).appendTo('body')[0];
+      this.c.width = this.options.width;
+      this.c.height = this.options.height;
+      var ctx = this.c.getContext('2d');
+
+      var p = this.image.position();
+      var s = this.selected.position();
+
+      var width = this.selected.width();
+      var height = this.selected.height();
+
+      ctx.drawImage(this.image[0], p.left, p.top, this.options.width, this.options.height);
+      ctx.drawImage(this.c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
+
+      var data = ctx.getImageData(0, 0, this.options.width, this.options.height);
+
+      $.post(this.options.url, {
+        cropped_file: this.c.toDataURL('image/png')
+      });
+
     },
 
     /**
@@ -236,7 +262,8 @@
     width:          260,  // необходимый финальный рзамер по горизонтали
     height:         310,  // финальный размер по вертикали
     aspect:         .5,   // минимальный коэффициент сжатия, т.е. слайдером можно будет отрегулировать размер на 50%
-    defaultAspect:  .9    // значение сжатия по умолчанию
+    defaultAspect:  .9,    // значение сжатия по умолчанию
+    url: '/crop'
   };
 
   $(function(){

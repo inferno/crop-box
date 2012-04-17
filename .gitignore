@@ -2,4 +2,4 @@
 .idea
 .sass-cache
 
-*.ck.js
+public/cropped/
