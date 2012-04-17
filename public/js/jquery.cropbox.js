@@ -42,6 +42,10 @@
       this.options.aspect = this.element.data('aspect');
     }
 
+    if ( this.element.data('url') ) {
+      this.options.url = this.element.data('url');
+    }
+
     this.options.defaultAspect = this.options.aspect + .2;
 
     this.holder = this.build();
