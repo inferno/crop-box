@@ -1,5 +1,7 @@
 # jQuery CropBox — кадрирование картинок с использованием `canvas`.
 
+![Скриншот](https://github.com/inferno/crop-box/raw/master/images/view-02.png "Скриншот")
+
 Скрипт позволяет кадрировать картинку используя заранее определенные пропорции.
 
 ## Как это работает?
@@ -82,7 +84,7 @@ ruby app.rb
 
 На скриншоте представлен внешний вид по умолчанию. Изменяя `crop-box.css` вы можете легко стилизовать виджет.
 
-![Скриншот](https://github.com/inferno/crop-box/raw/master/images/view.jpg "Скриншот")
+![Скриншот](https://github.com/inferno/crop-box/raw/master/images/view-01.png "Скриншот")
 
 ## Поддержка браузеров
 
