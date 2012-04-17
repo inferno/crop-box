@@ -6,17 +6,20 @@
   top: 0
   position: absolute
   background-color: white
-  overflow: hidden
-  +border-radius(10px)
   +single-box-shadow(rgba(black, .5), 3px, 3px, 7px)
+  z-index: 1
 
   .b-crop-box__area
     position: relative
     overflow: hidden
+    div
+      cursor: image-url('drag.png') 0 0, move
+
+  .b-crop-box__area_down
+    div
+      cursor: image-url('drag_start.png') 0 0, move
 
   .b-crop-box__image
-    +border-top-radius(10px)
-    cursor: move // TODO: переделать на руку как в Фотошопе
     width: 100%
     position: absolute
     left: 0
@@ -27,14 +30,14 @@
     background-color: #eaeaea
     height: 25px
     border-top: 1px solid #4f4f4f
-    +border-bottom-radius(10px)
+    z-index: 0
 
   .b-crop-box__selected
     position: absolute
     left: 0
     top: 0
-    cursor: move // TODO: переделать на руку как в Фотошопе
     border: 1px solid rgba(black, .5)
+    background: inline-image('point.png') no-repeat center
 
   .b-crop-box__selected_max
     border: 0
@@ -46,9 +49,9 @@
 
   .b-crop-box__send
     position: absolute
-    right: 13px
+    right: 10px
     top: 4px
-    background: inline-image('../img/send.png') no-repeat left top
+    background: inline-image('send.png') no-repeat left top
     width: image-width('send.png')
     height: image-height('send.png')
     display: block
@@ -57,10 +60,13 @@
     &:hover
       opacity: 1
 
+  .b-crop-box__track
+    background-image: inline-image('track.png')
 
   .ui-slider
     margin: 8px 40px 0 15px
-    background: inline-image('../img/track.png') no-repeat -4px top
+    background-repeat: no-repeat
+    background-position: -4px top
     height: image-height('track.png')
     position: relative
     i
@@ -69,11 +75,12 @@
       right: 0
       top: 0
       width: 4px
-      background: inline-image('../img/track.png') no-repeat right top
+      background-repeat: no-repeat
+      background-position: right top
       height: image-height('track.png')
     .ui-slider-handle
       display: block
-      background: inline-image('../img/knob.png') no-repeat right top
+      background: inline-image('knob.png') no-repeat right top
       width: image-width('knob.png')
       height: image-height('knob.png')
       position: absolute

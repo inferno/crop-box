@@ -87,7 +87,7 @@
         holder.append('<div class="b-crop-box__area"><img class="b-crop-box__image"/>' +
           '<div class="b-crop-box__mask left"/><div class="b-crop-box__mask right"/><div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
           '<div class="b-crop-box__selected"/></div>' +
-          '<div class="b-crop-box__panel"><div class="b-crop-box__slider"><i/></div><span class="b-crop-box__send"/></div>');
+          '<div class="b-crop-box__panel"><div class="b-crop-box__slider b-crop-box__track"><i class="b-crop-box__track"/></div><span class="b-crop-box__send"/></div>');
 
 
         this.masks = holder.find('.b-crop-box__mask');
@@ -164,6 +164,8 @@
 
       this.area.on('mousedown', $.proxy(function(e){
 
+        this.area.addClass('b-crop-box__area_down');
+
         this.start = {
           left: e.clientX - this.holder.position().left - this.image.position().left,
           top: e.clientY - this.holder.position().top - this.image.position().top
@@ -181,10 +183,11 @@
 
         }, this));
 
-        $(document).on('mouseup.cropbox', function(){
+        $(document).on('mouseup.cropbox', $.proxy(function(){
+          this.area.removeClass('b-crop-box__area_down');
           $(document).off('mousemove.cropbox');
           $(document).off('mouseup.cropbox');
-        });
+        }, this));
 
         e.preventDefault();
 
