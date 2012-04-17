@@ -1,4 +1,5 @@
 /**
+ * TODO: зоны появления окошка
  * TODO: минимальное значение зоны выбора в процентах
  * TODO: документирование кода
  * TODO: опции из data атрибута
@@ -30,7 +31,7 @@
       this.options.aspect = this.element.data('aspect');
     }
 
-    this.options.defaultAspect = this.options.aspect;
+    this.options.defaultAspect = this.options.aspect + .2;
 
     this.holder = this.build();
 
@@ -38,8 +39,8 @@
     this.setPosition();
 
     this.repositeSelected(100 * this.options.defaultAspect);
-    this.slider.slider('value', 100 * this.options.defaultAspect - 7);
     this.slider.slider('option', 'min', 100 * this.options.aspect);
+    this.slider.slider('value', 100 * this.options.defaultAspect);
 
   };
 
@@ -49,8 +50,8 @@
 
       var position = this.element.position();
       this.holder.css({
-        left: position.left,
-        top: position.top + this.element.height(),
+        left: position.left + this.element.width() + 5,
+        top: position.top
       });
 
       this.area.css({
@@ -137,8 +138,10 @@
           display: 'none'
         }
       }).appendTo('body')[0];
+
       this.c.width = this.options.width;
       this.c.height = this.options.height;
+
       var ctx = this.c.getContext('2d');
 
       var p = this.image.position();
@@ -147,7 +150,8 @@
       var width = this.selected.width();
       var height = this.selected.height();
 
-      ctx.drawImage(this.image[0], p.left, p.top, this.options.width, this.options.height);
+      ctx.drawImage(this.image[0], p.left, p.top, this.image.width(), this.image.height());
+
       ctx.drawImage(this.c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
       var data = ctx.getImageData(0, 0, this.options.width, this.options.height);

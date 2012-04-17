@@ -15,7 +15,7 @@
 
 ```html
 <script src="js/jquery.cropbox.js" type="text/javascript"></script>
-<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/crop-box.css" rel="stylesheet" type="text/css">
 ```
 
 В тех местах, где необходимо вызывать скрипт добавляем специальные атрибуты:
