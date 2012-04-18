@@ -188,16 +188,21 @@
 
     // Процедура кадрирования картинки с последующей отправкой на сервер.
     onSend: function() {
-      var c = $('<canvas/>').hide().appendTo('body')[0];
-      var o = $('<canvas/>').hide().appendTo('body')[0];
+      var c = $('<canvas/>').appendTo('body')[0];
+      var d = $('<canvas/>').appendTo('body')[0];
+      var o = $('<canvas/>').appendTo('body')[0];
 
       c.width = this.options.previewWidth;
       c.height = this.options.previewHeight;
+
+      d.width = this.options.previewWidth;
+      d.height = this.options.previewHeight;
 
       o.width = this.options.width;
       o.height = this.options.height;
 
       var ctx = c.getContext('2d');
+      var ctd = d.getContext('2d');
       var cto = o.getContext('2d');
 
       var p = this.image.position();
@@ -207,13 +212,13 @@
       var height = this.selected.height();
 
       ctx.drawImage(this.image[0], p.left, p.top, this.image.width(), this.image.height());
-      ctx.drawImage(c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
+      ctd.drawImage(c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
-      cto.drawImage(c, 0, 0, this.options.width, this.options.height, 0, 0, this.options.width, this.options.height);
+      cto.drawImage(d, 0, 0, this.options.width, this.options.height, 0, 0, this.options.width, this.options.height);
 
       var image = o.toDataURL('image/' + this.options.type);
 
-      $([c, o]).remove();
+      $([c, o, d]).remove();
 
       // Отправка картинки на сервер.
       $.post(this.options.url, { cropped_file: image }).success($.proxy(function(content){
