@@ -29,8 +29,8 @@
       this.options.previewHeight = this.options.height;
     }
 
-    if ( this.element.data('aspect') ) this.options.aspect = this.element.data('aspect');
     if ( this.element.data('url') ) this.options.url = this.element.data('url');
+    if ( this.element.data('min-aspect') ) this.options.aspect = this.element.data('min-aspect');
 
     if ( this.element.data('type') ) {
       var type = this.element.data('type');
@@ -43,7 +43,7 @@
     this.toggle();
     this.setPosition();
 
-    this.setSliderPosition(100 * this.options.aspect);
+    this.resetSliderPosition();
     this.repositeSelected(100 * this.options.aspect);
 
     // Удаляем старые события и навешиваем новые актуальные.
@@ -109,8 +109,8 @@
 
     },
 
-    setSliderPosition: function(value) {
-      this.knob.css('left', this.slider.width() * value / 100);
+    resetSliderPosition: function(value) {
+      this.knob.css('left', 0);
     },
 
     // Добавляет функционал слайдера.
@@ -124,10 +124,8 @@
           var left = e.pageX - this.slider.offset().left;
           if ( left < 0 ) left = 0; else if ( left > this.slider.width() ) left = this.slider.width();
           this.knob.css('left', left);
-
-          var value = left * 100/this.slider.width() ;
+          var value = ((100 - this.options.aspect*100)/(this.slider.width()) * left) + this.options.aspect*100 ;
           this.holder.trigger('slide', value );
-
         }, this));
 
         $(document).on('mouseup.cropbox', $.proxy(function(){
@@ -322,7 +320,7 @@
   $.fn.cropBox.defaults = {
     width:          260,     // размер по горизонтали
     height:         350,     // размер по вертикали
-    aspect:         .9,      // ???
+    aspect:         .5,      // ???
     url:            '/crop', // url, который будет сохранять кадрированный файл
     type:           'png'    // тип кадрированной картинки
   };
