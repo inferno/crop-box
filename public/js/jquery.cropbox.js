@@ -38,20 +38,16 @@
       if ( 'png' == type || 'jpg' == type ) this.options.type = type;
     }
 
-    this.options.defaultAspect = this.options.aspect + .2;
-
     this.build();
 
     this.toggle();
     this.setPosition();
 
-    this.repositeSelected(100 * this.options.defaultAspect);
-
-    this.slider.slider('option', 'min', 100 * this.options.aspect)
-      .slider('value', 100 * this.options.defaultAspect);
+    this.setSliderPosition(100 * this.options.aspect);
+    this.repositeSelected(100 * this.options.aspect);
 
     // Удаляем старые события и навешиваем новые актуальные.
-    this.slider.off('slide').on('slide', $.proxy(this.onSlide, this));
+    this.holder.off('slide').on('slide', $.proxy(this.onSlide, this));
     this.send.off('click').on('click', $.proxy(this.onSend, this));
   };
 
@@ -66,6 +62,7 @@
         selected : this.holder.find('.b-crop-box__selected'),
         masks    : this.holder.find('.b-crop-box__mask'),
         slider   : this.holder.find('.b-crop-box__slider'),
+        knob     : this.holder.find('.b-crop-box__knob'),
         send     : this.holder.find('.b-crop-box__send')
       };
 
@@ -97,7 +94,7 @@
           '<div class="b-crop-box__mask top"/><div class="b-crop-box__mask bottom"/>' +
           '<div class="b-crop-box__selected"/><div class="b-crop-box__cross"/></div>' +
           '<div class="b-crop-box__panel"><div class="b-crop-box__slider b-crop-box__track">' +
-          '<i class="b-crop-box__track"/></div><span class="b-crop-box__send"/></div>');
+          '<i class="b-crop-box__track"/><span class="b-crop-box__knob"/></div><span class="b-crop-box__send"/></div>');
 
         this.setCachedElements();
 
@@ -106,10 +103,40 @@
         });
 
         this.addDragBehaviour();
-        this.slider.slider({ max: 100 });
+        this.addSlider();
 
       }
 
+    },
+
+    setSliderPosition: function(value) {
+      this.knob.css('left', this.slider.width() * value / 100);
+    },
+
+    // Добавляет функционал слайдера.
+    addSlider: function() {
+
+      this.knob.on('mousedown', $.proxy(function(e){
+
+       var startLeft = e.offsetX;
+
+        $(document).on('mousemove.cropbox', $.proxy(function(e){
+          var left = e.pageX - this.slider.offset().left;
+          if ( left < 0 ) left = 0; else if ( left > this.slider.width() ) left = this.slider.width();
+          this.knob.css('left', left);
+
+          var value = left * 100/this.slider.width() ;
+          this.holder.trigger('slide', value );
+
+        }, this));
+
+        $(document).on('mouseup.cropbox', $.proxy(function(){
+          $(document).off('mouseup.cropbox mousemove.cropbox');
+        }, this));
+
+        e.preventDefault();
+
+      }, this))
     },
 
     // Позиционирует блок относительно якоря и устанавливает необходимые размеры виджета.
@@ -185,8 +212,6 @@
       ctx.drawImage(c, s.left, s.top, width, height, 0, 0, this.options.width, this.options.height);
 
       cto.drawImage(c, 0, 0, this.options.width, this.options.height, 0, 0, this.options.width, this.options.height);
-
-      console.info(this.options.type);
 
       var image = o.toDataURL('image/' + this.options.type);
 
@@ -282,8 +307,7 @@
     },
 
     // Реакция на перемещение слайдера.
-    onSlide: function(e, ui) {
-      var value = ui.value;
+    onSlide: function(e, value) {
       this.repositeSelected(value);
     }
 
@@ -298,7 +322,7 @@
   $.fn.cropBox.defaults = {
     width:          260,     // размер по горизонтали
     height:         350,     // размер по вертикали
-    aspect:         .5,      // ???
+    aspect:         .9,      // ???
     url:            '/crop', // url, который будет сохранять кадрированный файл
     type:           'png'    // тип кадрированной картинки
   };

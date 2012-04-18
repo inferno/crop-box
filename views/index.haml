@@ -3,7 +3,6 @@
   %head
     %title Примеры кадрирования
     %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", :type => "text/javascript"}
-    %script{:src => "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js", :type => "text/javascript"}
     %script{:src => "js/jquery.cropbox.js", :type => "text/javascript"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "css/style.css"}
     %link{:rel => "stylesheet", :type => "text/css", :href => "css/crop-box.css"}
@@ -26,8 +25,10 @@
           }
         }).appendTo('body');
 
-
       });
+
+      $('.b-preview:eq(1)').cropBox();
+
 
     });
 

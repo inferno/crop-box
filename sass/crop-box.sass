@@ -44,8 +44,8 @@
     position: absolute
     margin-left: 50%
     margin-top: 50%
-    left: -image-width('cross.png')/2
-    top: -image-height('cross.png')/2
+    left: -(image-width('cross.png')/2)
+    top: -(image-height('cross.png')/2)
     background: inline-image('cross.png') no-repeat center
     width: image-width('cross.png')
     height: image-height('cross.png')
@@ -71,7 +71,7 @@
   .b-crop-box__track
     background-image: inline-image('track.png')
 
-  .ui-slider
+  .b-crop-box__slider
     margin: 8px 40px 0 15px
     background-repeat: no-repeat
     background-position: -4px top
@@ -86,16 +86,18 @@
       background-repeat: no-repeat
       background-position: right top
       height: image-height('track.png')
-    .ui-slider-handle
-      display: block
-      background: inline-image('knob.png') no-repeat right top
-      width: image-width('knob.png')
-      height: image-height('knob.png')
-      position: absolute
-      top: -4px
-      margin-left: -10px
-      opacity: .8
-      &:hover
-        opacity: 1
-      &:focus
-        outline: none
+
+  .b-crop-box__knob
+    cursor: pointer
+    display: block
+    background: inline-image('knob.png') no-repeat right top
+    width: image-width('knob.png')
+    height: image-height('knob.png')
+    position: absolute
+    top: -4px
+    margin-left: -10px
+    opacity: .8
+    &:hover
+      opacity: 1
+    &:focus
+      outline: none
