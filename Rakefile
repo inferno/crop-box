@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'cucumber/rake/task'
 
 desc "rebuild the jquery.cropbox.min.js files for distribution"
 task :build do
@@ -18,6 +19,10 @@ desc "build the docco documentation"
 task :doc do
   check 'docco', 'docco', 'https://github.com/jashkenas/docco'
   system 'docco public/js/jquery.cropbox.js'
+end
+
+Cucumber::Rake::Task.new do |t|
+  t.cucumber_opts = %w{--format pretty}
 end
 
 # Check for the existence of an executable.

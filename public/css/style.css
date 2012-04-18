@@ -1,4 +1,4 @@
-.b-preview { cursor: pointer; width: 83px; height: 83px; background: url("../img/preview.png") no-repeat left top; opacity: 0.5; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -ms-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s false; }
+.b-preview { cursor: pointer; width: 83px; height: 83px; background: url("../img/preview.png") no-repeat left top; opacity: 0.5; display: block; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -ms-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s false; }
 .b-preview:hover { opacity: 1; }
 
 .b-preview_one { position: absolute; left: 30px; top: 70px; }

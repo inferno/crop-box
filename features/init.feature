@@ -1,11 +1,13 @@
-Feature: Load pages
-  In order to work with widget
-  A user
-  Should be load page
+# language: ru
 
-  Scenario: Load page
-    When I type url
-    Then I should see page
+Функционал: Открытие виджета
+  Чтобы использовать виджет
+  Пользователь должен мочь его открыть
+
+  @javascript
+  Сценарий: Открытие виджета
+    Если я нажимаю на якорь
+    То виджет должен открыться
 
 
 
