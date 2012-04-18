@@ -1,31 +1,17 @@
-<!DOCTYPE html>  <html> <head>   <title>jquery.cropbox.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.cropbox.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * TODO: зоны появления окошка</span>
-<span class="cm"> * TODO: минимальное значение зоны выбора в процентах</span>
-<span class="cm"> * TODO: документирование кода</span>
-<span class="cm"> * TODO: опции из data атрибута</span>
-<span class="cm"> * TODO: переписать слайдер без использования jquery-ui</span>
-<span class="cm"> * TODO: позиционирование блока относительно якоря верх/низ/право/лево</span>
-<span class="cm"> * TODO: крест,маркирующий центр</span>
-<span class="cm"> * TODO: найти текстуру под фотографию</span>
-<span class="cm"> * TODO: доступ к объекту и show/hide</span>
-<span class="cm"> */</span>
+<!DOCTYPE html>  <html> <head>   <title>jquery.cropbox.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.cropbox.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>TODO</h2>
 
-<span class="o">!</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
-
-  <span class="cm">/**</span>
-<span class="cm">   * Конструктор</span>
-<span class="cm">   *</span>
-<span class="cm">   * @param element элемент, для которого конструируем</span>
-<span class="cm">   * @param options набор опций, смешивается со значениями по дефолту</span>
-<span class="cm">   */</span>
-  <span class="kd">var</span> <span class="nx">CropBox</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
+<ul>
+<li>переписать слайдер без использования jquery-ui</li>
+<li>найти текстуру для фона</li>
+<li>доступ к объекту и show/hide</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="o">!</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Конструктор</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">var</span> <span class="nx">CropBox</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span><span class="p">.</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span> <span class="c1">// мерджим опции</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>финальные размеры, если их нет, используем дефолтные значения</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span><span class="p">.</span><span class="nx">defaults</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>финальные размеры, если их нет, используем дефолтные значения</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">size</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>размеры превьюшечки, если их нет, используем финальные размер</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size-preview&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>размеры превьюшечки, если их нет, используем финальные размер</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size-preview&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">sizePreview</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;size-preview&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">previewWidth</span> <span class="o">=</span> <span class="nx">sizePreview</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">previewHeight</span> <span class="o">=</span> <span class="nx">sizePreview</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
@@ -47,12 +33,7 @@
 
     <span class="k">this</span><span class="p">.</span><span class="nx">repositeSelected</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">defaultAspect</span><span class="p">);</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">slider</span><span class="p">(</span><span class="s1">&#39;option&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">aspect</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">slider</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">defaultAspect</span><span class="p">);</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Чистим события и навешиваем новые события для конкретного контрола</span>
-<span class="cm">     */</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;slide&#39;</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">slider</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">defaultAspect</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Чистим события и навешиваем новые события для конкретного контрола</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;slide&#39;</span><span class="p">);</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">send</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">);</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;slide&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">onSlide</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
@@ -60,19 +41,9 @@
 
   <span class="p">};</span>
 
-  <span class="nx">CropBox</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">CropBox</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Позиционируем блок относительно якоря</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">setPosition</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-    <span class="cm">/**</span>
-<span class="cm">     * Позиционируем блок относительно якоря</span>
-<span class="cm">     */</span>
-    <span class="nx">setPosition</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-
-      <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">position</span><span class="p">();</span>
-
-      <span class="cm">/**</span>
-<span class="cm">       * Определяем, в какую сторону выбрасывать блок — в левую или в правую</span>
-<span class="cm">       */</span>
-      <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="nx">position</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">width</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">position</span><span class="p">();</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Определяем, в какую сторону выбрасывать блок — в левую или в правую</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="nx">position</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">width</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
       <span class="k">if</span> <span class="p">(</span> <span class="nx">left</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">previewWidth</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">width</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">left</span> <span class="o">=</span> <span class="nx">position</span><span class="p">.</span><span class="nx">left</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">previewWidth</span><span class="p">;</span>
       <span class="p">}</span>
@@ -94,21 +65,11 @@
       <span class="p">});</span>
 
       <span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;crop&#39;</span><span class="p">));</span>
-    <span class="p">},</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Показывает или скрывает контрол</span>
-<span class="cm">     */</span>
-    <span class="nx">toggle</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Показывает или скрывает контрол</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">toggle</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
       <span class="kd">var</span> <span class="nx">method</span><span class="p">;</span>
 
-      <span class="k">this</span><span class="p">.</span><span class="nx">holder</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span>
-
-      <span class="cm">/**</span>
-<span class="cm">       * По клику на тело документа закрываем блок</span>
-<span class="cm">       */</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">holder</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:visible&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">holder</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>По клику на тело документа закрываем блок</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">holder</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;:visible&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
         <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click.cropbox&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
           <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;click.cropbox&#39;</span><span class="p">);</span>
           <span class="k">this</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span>
@@ -118,13 +79,7 @@
       <span class="p">}</span> <span class="k">else</span> <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;hide&#39;</span><span class="p">;</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">method</span><span class="p">);</span>
 
-    <span class="p">},</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Инициализируем CropBox как синглетон</span>
-<span class="cm">     * @return {*}</span>
-<span class="cm">     */</span>
-    <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Инициализируем CropBox как синглетон</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">holder</span><span class="p">;</span>
 
       <span class="k">if</span> <span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#crop-box&#39;</span><span class="p">).</span><span class="nx">length</span> <span class="p">)</span> <span class="p">{</span>
@@ -169,12 +124,7 @@
 
       <span class="p">}</span>
       <span class="k">return</span><span class="p">(</span><span class="nx">holder</span><span class="p">);</span>
-    <span class="p">},</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Кропанье картинки</span>
-<span class="cm">     */</span>
-    <span class="nx">onSend</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Кропанье картинки</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">onSend</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;canvas/&gt;&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">().</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
 
       <span class="nx">c</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">previewWidth</span><span class="p">;</span>
@@ -210,12 +160,7 @@
       <span class="nx">$</span><span class="p">(</span><span class="nx">out</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
       <span class="nx">$</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
 
-    <span class="p">},</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Инициализация D&amp;D поведение для фотографии</span>
-<span class="cm">     */</span>
-    <span class="nx">addDragBehaviour</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Инициализация D&amp;D поведение для фотографии</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">addDragBehaviour</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
       <span class="k">this</span><span class="p">.</span><span class="nx">area</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mousedown&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
 
@@ -247,16 +192,11 @@
         <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
 
       <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
-    <span class="p">},</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Рисует зону выбора. Зона выбора представляет собой маску состоящую
+из 4-х слоев.</p>
 
-    <span class="cm">/**</span>
-<span class="cm">     * Рисует зону выбора. Зона выбора представляет собой маску состоящую</span>
-<span class="cm">     * из 4-х слоев.</span>
-<span class="cm">     *</span>
-<span class="cm">     * @param value значение слайдера, [this.options.aspect*100...100],</span>
-<span class="cm">     * 100 — зона выбора растянута на весь блок</span>
-<span class="cm">     */</span>
-    <span class="nx">repositeSelected</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+<p>@param value значение слайдера, [this.options.aspect*100...100],
+100 — зона выбора растянута на весь блок</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">repositeSelected</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
 
       <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">value</span><span class="o">/</span><span class="mi">100</span><span class="p">);</span>
       <span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="nx">value</span><span class="o">/</span><span class="mi">100</span><span class="p">);</span>
@@ -266,12 +206,7 @@
         <span class="nx">height</span><span class="o">:</span> <span class="nx">height</span><span class="p">,</span>
         <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">area</span><span class="p">.</span><span class="nx">width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
         <span class="nx">top</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">area</span><span class="p">.</span><span class="nx">height</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-      <span class="p">});</span>
-
-      <span class="cm">/**</span>
-<span class="cm">       * Рисуем маску, состоящую из четырех слоев</span>
-<span class="cm">       */</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">masks</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="c1">// Верх</span>
+      <span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Рисуем маску, состоящую из четырех слоев</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">this</span><span class="p">.</span><span class="nx">masks</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="c1">// Верх</span>
         <span class="nx">left</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">selected</span><span class="p">.</span><span class="nx">position</span><span class="p">().</span><span class="nx">left</span><span class="p">,</span>
         <span class="nx">top</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="nx">width</span><span class="o">:</span> <span class="nx">width</span><span class="p">,</span>
@@ -299,30 +234,16 @@
         <span class="nx">height</span><span class="o">:</span> <span class="s1">&#39;100%&#39;</span>
       <span class="p">});</span>
 
-    <span class="p">},</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Каждый тик слайдера перерисовываем выбранную зону.</span>
-<span class="cm">     * @param e событие</span>
-<span class="cm">     * @param ui</span>
-<span class="cm">     */</span>
-    <span class="nx">onSlide</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">ui</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Реакция на перемещение слайдера</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">onSlide</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">ui</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">ui</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">repositeSelected</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
     <span class="p">}</span>
 
-  <span class="p">};</span>
-
-  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Создаем jQuery плагин</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
       <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;crop-box&#39;</span><span class="p">,</span> <span class="p">(</span><span class="k">new</span> <span class="nx">CropBox</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">)));</span>
     <span class="p">});</span>
-  <span class="p">};</span>
-
-  <span class="cm">/**</span>
-<span class="cm">   * Установки по дефолту</span>
-<span class="cm">   */</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Значения по умолчанию</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">cropBox</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">width</span><span class="o">:</span>          <span class="mi">260</span><span class="p">,</span>    <span class="c1">// размер по горизонтали</span>
     <span class="nx">height</span><span class="o">:</span>         <span class="mi">350</span><span class="p">,</span>    <span class="c1">// размер по вертикали</span>
     <span class="nx">aspect</span><span class="o">:</span>         <span class="p">.</span><span class="mi">5</span><span class="p">,</span>     <span class="c1">// ???</span>

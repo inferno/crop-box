@@ -1,27 +1,16 @@
-/**
- * TODO: зоны появления окошка
- * TODO: минимальное значение зоны выбора в процентах
- * TODO: документирование кода
- * TODO: опции из data атрибута
- * TODO: переписать слайдер без использования jquery-ui
- * TODO: позиционирование блока относительно якоря верх/низ/право/лево
- * TODO: крест,маркирующий центр
- * TODO: найти текстуру под фотографию
- * TODO: доступ к объекту и show/hide
- */
+// ## TODO
+// * переписать слайдер без использования jquery-ui
+// * найти текстуру для фона
+// * доступ к объекту и show/hide
 
 !(function($){
 
-  /**
-   * Конструктор
-   *
-   * @param element элемент, для которого конструируем
-   * @param options набор опций, смешивается со значениями по дефолту
-   */
+
+  //  Конструктор
   var CropBox = function(element, options){
 
     this.element = $(element);
-    this.options = $.extend({}, $.fn.cropBox.defaults, options); // мерджим опции
+    this.options = $.extend({}, $.fn.cropBox.defaults, options);
 
     // финальные размеры, если их нет, используем дефолтные значения
     if ( this.element.data('size') ) {
@@ -55,9 +44,7 @@
     this.slider.slider('option', 'min', 100 * this.options.aspect);
     this.slider.slider('value', 100 * this.options.defaultAspect);
 
-    /**
-     * Чистим события и навешиваем новые события для конкретного контрола
-     */
+    // Чистим события и навешиваем новые события для конкретного контрола
     this.slider.off('slide');
     this.send.off('click');
 
@@ -68,16 +55,12 @@
 
   CropBox.prototype = {
 
-    /**
-     * Позиционируем блок относительно якоря
-     */
+    // Позиционируем блок относительно якоря
     setPosition: function() {
 
       var position = this.element.position();
 
-      /**
-       * Определяем, в какую сторону выбрасывать блок — в левую или в правую
-       */
+      // Определяем, в какую сторону выбрасывать блок — в левую или в правую
       var left = position.left + this.element.width() + 5;
       if ( left + parseInt(this.options.previewWidth) > $(document).width() ) {
         left = position.left - 10 - this.options.previewWidth;
@@ -102,18 +85,14 @@
       this.image.attr('src', this.element.data('crop'));
     },
 
-    /**
-     * Показывает или скрывает контрол
-     */
+    // Показывает или скрывает контрол
     toggle: function() {
 
       var method;
 
       this.holder.toggle();
 
-      /**
-       * По клику на тело документа закрываем блок
-       */
+      // По клику на тело документа закрываем блок
       if ( this.holder.is(':visible') ) {
         $(document).on('click.cropbox', $.proxy(function(){
           $(document).off('click.cropbox');
@@ -126,10 +105,7 @@
 
     },
 
-    /**
-     * Инициализируем CropBox как синглетон
-     * @return {*}
-     */
+    // Инициализируем CropBox как синглетон
     build: function() {
       var holder;
 
@@ -177,9 +153,7 @@
       return(holder);
     },
 
-    /**
-     * Кропанье картинки
-     */
+    // Кропанье картинки
     onSend: function() {
       var c = $('<canvas/>').hide().appendTo('body')[0];
 
@@ -218,9 +192,7 @@
 
     },
 
-    /**
-     * Инициализация D&D поведение для фотографии
-     */
+    // Инициализация D&D поведение для фотографии
     addDragBehaviour: function() {
 
       this.area.on('mousedown', $.proxy(function(e){
@@ -255,13 +227,12 @@
       }, this));
     },
 
-    /**
-     * Рисует зону выбора. Зона выбора представляет собой маску состоящую
-     * из 4-х слоев.
-     *
-     * @param value значение слайдера, [this.options.aspect*100...100],
-     * 100 — зона выбора растянута на весь блок
-     */
+
+    // Рисует зону выбора. Зона выбора представляет собой маску состоящую
+    // из 4-х слоев.
+    //
+    // @param value значение слайдера, [this.options.aspect*100...100],
+    // 100 — зона выбора растянута на весь блок
     repositeSelected: function(value) {
 
       var width = Math.floor(this.options.width * value/100);
@@ -274,9 +245,7 @@
         top: Math.floor(this.area.height()/2 - height/2)
       });
 
-      /**
-       * Рисуем маску, состоящую из четырех слоев
-       */
+      // Рисуем маску, состоящую из четырех слоев
       this.masks.eq(0).css({ // Верх
         left: this.selected.position().left,
         top: 0,
@@ -307,11 +276,7 @@
 
     },
 
-    /**
-     * Каждый тик слайдера перерисовываем выбранную зону.
-     * @param e событие
-     * @param ui
-     */
+    // Реакция на перемещение слайдера
     onSlide: function(e, ui) {
       var value = ui.value;
       this.repositeSelected(value);
@@ -319,15 +284,14 @@
 
   };
 
+  // Создаем jQuery плагин
   $.fn.cropBox = function(options) {
     return this.each(function(){
       $(this).data('crop-box', (new CropBox(this, options)));
     });
   };
 
-  /**
-   * Установки по дефолту
-   */
+  // Значения по умолчанию
   $.fn.cropBox.defaults = {
     width:          260,    // размер по горизонтали
     height:         350,    // размер по вертикали
