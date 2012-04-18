@@ -6,20 +6,22 @@
 !(function($){
 
 
-  //  Конструктор
+  // ## Конструктор
   var CropBox = function(element, options){
 
     this.element = $(element);
+
+    // Объединяем опции со значениями по умолчанию.
     this.options = $.extend({}, $.fn.cropBox.defaults, options);
 
-    // финальные размеры, если их нет, используем дефолтные значения
+    // Финальные размеры картинки, если их нет, используем значения по умолчанию.
     if ( this.element.data('size') ) {
       var size = this.element.data('size').split('x');
       this.options.width = parseInt(size[0]);
       this.options.height = parseInt(size[1]);
     }
 
-    // размеры превьюшечки, если их нет, используем финальные размер
+    // Размеры виджета, если размеры не установлены, используем финальные размеры картинки.
     if ( this.element.data('size-preview') ) {
       var sizePreview = this.element.data('size-preview').split('x');
       this.options.previewWidth = sizePreview[0];
@@ -30,7 +32,6 @@
     }
 
     if ( this.element.data('aspect') ) this.options.aspect = this.element.data('aspect');
-
     if ( this.element.data('url') ) this.options.url = this.element.data('url');
 
     this.options.defaultAspect = this.options.aspect + .2;
@@ -44,7 +45,7 @@
     this.slider.slider('option', 'min', 100 * this.options.aspect);
     this.slider.slider('value', 100 * this.options.defaultAspect);
 
-    // Чистим события и навешиваем новые события для конкретного контрола
+    // Удаляем старые события и навешиваем новые актуальные.
     this.slider.off('slide');
     this.send.off('click');
 
@@ -53,14 +54,15 @@
 
   };
 
+  // ## Методы
   CropBox.prototype = {
 
-    // Позиционируем блок относительно якоря
+    // Позиционирует блок относительно якоря и устанавливает необходимые размеры виджета.
     setPosition: function() {
 
       var position = this.element.position();
 
-      // Определяем, в какую сторону выбрасывать блок — в левую или в правую
+      // Определяем, в какую сторону выбрасывать блок — в левую или в правую.
       var left = position.left + this.element.width() + 5;
       if ( left + parseInt(this.options.previewWidth) > $(document).width() ) {
         left = position.left - 10 - this.options.previewWidth;
@@ -85,14 +87,14 @@
       this.image.attr('src', this.element.data('crop'));
     },
 
-    // Показывает или скрывает контрол
+    // Показывает или скрывает виджет.
     toggle: function() {
 
       var method;
 
       this.holder.toggle();
 
-      // По клику на тело документа закрываем блок
+      // По клику на тело документа закрываем блок.
       if ( this.holder.is(':visible') ) {
         $(document).on('click.cropbox', $.proxy(function(){
           $(document).off('click.cropbox');
@@ -105,7 +107,8 @@
 
     },
 
-    // Инициализируем CropBox как синглетон
+    // Возвращает сконструированный виджет, в случае, если он
+    // был инициализирован ранее, возвращает его.
     build: function() {
       var holder;
 
@@ -153,7 +156,7 @@
       return(holder);
     },
 
-    // Кропанье картинки
+    // Процедура кадрирования картинки с последующей отправкой на сервер.
     onSend: function() {
       var c = $('<canvas/>').hide().appendTo('body')[0];
 
@@ -192,7 +195,7 @@
 
     },
 
-    // Инициализация D&D поведение для фотографии
+    // Инициализация D&D поведение для фотографии.
     addDragBehaviour: function() {
 
       this.area.on('mousedown', $.proxy(function(e){
@@ -229,10 +232,8 @@
 
 
     // Рисует зону выбора. Зона выбора представляет собой маску состоящую
-    // из 4-х слоев.
-    //
-    // @param value значение слайдера, [this.options.aspect*100...100],
-    // 100 — зона выбора растянута на весь блок
+    // из 4-х слоев. **value** — значение слайдера, [this.options.aspect*100...100],
+    // 100 — зона выбора растянута на весь блок.
     repositeSelected: function(value) {
 
       var width = Math.floor(this.options.width * value/100);
@@ -245,7 +246,7 @@
         top: Math.floor(this.area.height()/2 - height/2)
       });
 
-      // Рисуем маску, состоящую из четырех слоев
+      // Рисуем маску, состоящую из четырех слоев.
       this.masks.eq(0).css({ // Верх
         left: this.selected.position().left,
         top: 0,
@@ -276,7 +277,7 @@
 
     },
 
-    // Реакция на перемещение слайдера
+    // Реакция на перемещение слайдера.
     onSlide: function(e, ui) {
       var value = ui.value;
       this.repositeSelected(value);
@@ -284,14 +285,14 @@
 
   };
 
-  // Создаем jQuery плагин
+  // Создаем jQuery плагин.
   $.fn.cropBox = function(options) {
     return this.each(function(){
       $(this).data('crop-box', (new CropBox(this, options)));
     });
   };
 
-  // Значения по умолчанию
+  // Значения по умолчанию.
   $.fn.cropBox.defaults = {
     width:          260,    // размер по горизонтали
     height:         350,    // размер по вертикали
