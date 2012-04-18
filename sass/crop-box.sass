@@ -38,7 +38,16 @@
     left: 0
     top: 0
     border: 1px solid rgba(black, .5)
-    background: inline-image('point.png') no-repeat center
+
+  .b-crop-box__cross
+    position: absolute
+    margin-left: 50%
+    margin-top: 50%
+    left: -image-width('cross.png')/2
+    top: -image-height('cross.png')/2
+    background: inline-image('cross.png') no-repeat center
+    width: image-width('cross.png')
+    height: image-height('cross.png')
 
   .b-crop-box__mask
     position: absolute
