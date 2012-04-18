@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>jQuery CropBox by inferno</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>jQuery CropBox</h1>
+        <p>кадрирование картинок с лицами</p>
+        <p class="view"><a href="https://github.com/inferno/crop-box">View the Project on GitHub <small>inferno/crop-box</small></a></p>
+        <ul>
+          <li><a href="https://github.com/inferno/crop-box/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/inferno/crop-box/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/inferno/crop-box">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><img src="https://github.com/inferno/crop-box/raw/master/images/view-02.png" alt="Скриншот" title="Скриншот"></p>
+
+<p>Скрипт позволяет кадрировать картинку используя заранее определенные пропорции.</p>
+
+<h2>Как это работает?</h2>
+
+<p>Скрипт написан с использованием <code>jQuery</code>.</p>
+
+<p>В секцию <code>head</code> необходимо подключить <code>jQuery</code>, например, вот так:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"<a href="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js</a>"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre>
+</div>
+
+
+<p>Дальше необходимо подключить <code>jquery.cropbox.js</code> и <code>crop-box.css</code> из папки <code>public</code>:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/jquery.cropbox.js"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"css/crop-box.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+</pre>
+</div>
+
+
+<p>В качестве якоря для виджета используется любой html-элемент. Якорь должен содержать как минимум один обязательный data-атрибут (<code>data-crop</code>). Пример:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;div</span> <span class="na">data-crop=</span><span class="s">"img/navalny.png"</span> <span class="na">data-size=</span><span class="s">"100x100"</span> <span class="na">data-size-preview=</span><span class="s">"260x310"</span> <span class="na">data-aspect=</span><span class="s">"0.5"</span> <span class="na">data-url=</span><span class="s">"/upload"</span><span class="nt">&gt;&lt;/div&gt;</span>
+</pre>
+</div>
+
+
+<h3>Атрибуты</h3>
+
+<ul>
+<li>
+<code>data-crop</code> — <code>url</code> картинки для кадрирования. Единственный обязательный параметр.</li>
+<li>
+<code>data-size</code> — размеры картинки, которая должна получиться после кадрирования</li>
+<li>
+<code>data-size-preview</code> — размеры превьюшечки</li>
+<li>
+<code>data-type</code> — тип получаемой картинки: <code>png</code> или <code>jpg</code>
+</li>
+<li>
+<code>data-aspect</code> — минимальный размер выбранной зоны</li>
+<li>
+<code>data-url</code> — серверный скрипт, который будет принимать картинку, закодированную в <code>data-uri</code>, ответ приходит в параметре с названием <code>cropped_file</code>
+</li>
+</ul><p>Если разобрать пример выше, мы будем кадрировать <code>img/navalny.png</code>, у нас получится картинка с размерами <code>100x100</code>, минимальная часть, которую мы сможем выбрать на картинке будет равна <code>50%</code> от <code>260x310</code>, итоговую картинку получит скрипт, расположенный по адресу <code>/upload</code>.</p>
+
+<p>Картинку, пришедшую на сервер нужно разобрать, она закодирована в <code>data-uri</code>. Получить картинку на <code>ruby</code> можно следующим образом:</p>
+
+<div class="highlight">
+<pre><span class="nv">file</span> <span class="o">=</span> Base64.decode64<span class="o">(</span>params<span class="o">[</span>:cropped_file<span class="o">]</span>.split<span class="o">(</span><span class="s1">','</span><span class="o">)[</span>1<span class="o">])</span>
+</pre>
+</div>
+
+
+<h3>События</h3>
+
+<p>Доступны следующие события: <code>complete</code>, <code>show</code> и <code>hide</code>.</p>
+
+<p>Привязать событие можно следующим образом:</p>
+
+<div class="highlight">
+<pre><span class="nx">$</span><span class="p">(</span><span class="s1">'#anchor'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'complete'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">file</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Тестирование возможностей</h2>
+
+<p>Вы можете быстро увидеть работу виджета в действии, для этого, у вас должен быть установлен интерпритатор Ruby.</p>
+
+<p>Выкачиваем репозиторий:</p>
+
+<div class="highlight">
+<pre>git clone git@github.com:inferno/CropBox.git
+</pre>
+</div>
+
+
+<p>Устанавливаем необходимые гемы:</p>
+
+<div class="highlight">
+<pre><span class="nb">cd </span>CropBox
+bundle install
+</pre>
+</div>
+
+
+<p>Запускаем приложение:</p>
+
+<div class="highlight">
+<pre>ruby app.rb
+</pre>
+</div>
+
+
+<p>В браузере заходим по адресу <code>http://localhost:4567</code>, смотрим на работу скрипта.</p>
+
+<h2>Скриншот</h2>
+
+<p>На скриншоте представлен внешний вид по умолчанию. Изменяя <code>crop-box.css</code> вы можете легко стилизовать виджет.</p>
+
+<p><img src="https://github.com/inferno/crop-box/raw/master/images/view-01.png" alt="Скриншот" title="Скриншот"></p>
+
+<h2>Поддержка браузеров</h2>
+
+<p>Скрипт поддерживает все браузеры, имеющие реализацию <code>canvas</code>.</p>
+
+<ul>
+<li>Firefox</li>
+<li>Opera</li>
+<li>Safari и Chrome</li>
+<li>Internet Explorer 9+</li>
+</ul><h2>Авторство</h2>
+
+<p>Copyright © Konstantin Savelyev</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/inferno">inferno</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-1139781-11");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
