@@ -1,6 +1,4 @@
 // ## TODO
-// * переписать слайдер без использования jquery-ui
-// * найти текстуру для фона
 
 !(function($){
 
@@ -176,13 +174,17 @@
 
       // По клику на тело документа закрываем блок.
       if ( this.holder.is(':visible') ) {
+        this.element.addClass('active');
         $(document).on('click.cropbox', $.proxy(function(){
           $(document).off('click.cropbox');
           this.toggle();
         }, this));
 
         method = 'show';
-      } else method = 'hide';
+      } else {
+        method = 'hide';
+        this.element.removeClass('active');
+      }
       this.element.trigger(method);
     },
 
@@ -225,7 +227,7 @@
         this.element.trigger('success', content);
       }, this)).error($.proxy(function(content){
         this.element.trigger('error', content);
-      }, this))
+      }, this));
     },
 
     // Инициализация D&D поведение для фотографии.

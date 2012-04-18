@@ -1,7 +1,7 @@
 .b-crop-box { border: 2px solid #464646; left: 0; top: 0; position: absolute; background-color: white; -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5); -moz-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5); box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5); z-index: 1; }
-.b-crop-box .b-crop-box__area { position: relative; overflow: hidden; background: url('../img/transparent.png?1334748736'); }
-.b-crop-box .b-crop-box__area div { cursor: url('../img/drag.png?1334733798') 0 0, move; }
-.b-crop-box .b-crop-box__area_down div { cursor: url('../img/drag_start.png?1334748735') 0 0, move; }
+.b-crop-box .b-crop-box__area { position: relative; overflow: hidden; background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIElEQVQ4T2P4TwBcunQJL2YYNWBYGEBIASEwasCwMAAAF7G4rpelZF4AAAAASUVORK5CYII='); }
+.b-crop-box .b-crop-box__area div { cursor: url('../img/drag.png?1334756184') 0 0, move; }
+.b-crop-box .b-crop-box__area_down div { cursor: url('../img/drag_start.png?1334756184') 0 0, move; }
 .b-crop-box .b-crop-box__image { width: 100%; position: absolute; left: 0; top: 0; }
 .b-crop-box .b-crop-box__panel { position: relative; background-color: #eaeaea; height: 25px; border-top: 1px solid #4f4f4f; z-index: 0; }
 .b-crop-box .b-crop-box__selected { position: absolute; left: 0; top: 0; border: 1px solid rgba(0, 0, 0, 0.5); }
