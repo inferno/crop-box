@@ -149,7 +149,7 @@
         top: 0
       });
 
-      var position = this.element.position();
+      var position = this.element.offset();
 
       // Определяем, в какую сторону выбрасывать блок — в левую или в правую.
       var left = position.left + this.element.width() + 5;
