@@ -1,5 +1,6 @@
 source :rubygems
 
+gem 'rspec'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'haml'

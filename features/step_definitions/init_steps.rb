@@ -3,7 +3,7 @@
 Если /^я нажимаю на якорь$/ do
   visit 'http://localhost:4567'
   click_link 'anchor'
-  assert page.has_selector?('.b-crop-box')
+  page.should have_selector('#crop-box')
 
   #page.driver.render "tmp/screenshot.png"
 
