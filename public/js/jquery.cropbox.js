@@ -1,5 +1,3 @@
-// ## TODO
-
 !(function($){
 
 
@@ -29,6 +27,7 @@
 
     if ( this.element.data('url') ) this.options.url = this.element.data('url');
     if ( this.element.data('min-aspect') ) this.options.aspect = this.element.data('min-aspect');
+    if ( this.element.data('param') ) this.options.param = this.element.data('param');
 
     if ( this.element.data('type') ) {
       var type = this.element.data('type');
@@ -223,7 +222,9 @@
       $([c, o, d]).remove();
 
       // Отправка картинки на сервер.
-      $.post(this.options.url, { cropped_file: image }).success($.proxy(function(content){
+      var data = {};
+      data[this.options.param] = image;
+      $.post(this.options.url, data).success($.proxy(function(content){
         this.element.trigger('success', content);
       }, this)).error($.proxy(function(content){
         this.element.trigger('error', content);
@@ -325,11 +326,12 @@
 
   // ## Значения по умолчанию
   $.fn.cropBox.defaults = {
-    width:          260,     // размер по горизонтали
-    height:         350,     // размер по вертикали
-    aspect:         .5,      // ???
-    url:            '/crop', // url, который будет сохранять кадрированный файл
-    type:           'png'    // тип кадрированной картинки
+    width:          260,           // размер по горизонтали
+    height:         350,           // размер по вертикали
+    aspect:         .5,            // ???
+    url:            '/crop',       // url, который будет сохранять кадрированный файл
+    type:           'png',         // тип кадрированной картинки
+    param:          'cropped_file' // имя параметра, в котором будет приходить файд
   };
 
   $(function(){
